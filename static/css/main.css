@@ -1,0 +1,191 @@
+/* TrailMate Main CSS */
+
+:root {
+    --primary-color: #E84A27; /* Orange from login button */
+    --secondary-color: #F8A269; /* Lighter orange */
+    --text-color: #333333;
+    --light-color: #FFFFFF;
+    --background-color: #F5F5F5;
+    --accent-color: #6C757D;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #d43d1c;
+    border-color: #d43d1c;
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: #d43d1c;
+    text-decoration: underline;
+}
+
+/* Cards */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: rgba(232, 74, 39, 0.1);
+    border-bottom: 1px solid rgba(232, 74, 39, 0.2);
+}
+
+/* Mountain cards */
+.mountain-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.mountain-card .difficulty {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.difficulty.easy {
+    background-color: #28a745;
+}
+
+.difficulty.moderate {
+    background-color: #ffc107;
+}
+
+.difficulty.hard {
+    background-color: #fd7e14;
+}
+
+.difficulty.expert {
+    background-color: #dc3545;
+}
+
+/* Map */
+#map-container {
+    height: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.map-sidebar {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Reviews */
+.review {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.star-rating {
+    color: #ffc107;
+}
+
+/* Profile */
+.profile-header {
+    background-color: rgba(232, 74, 39, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+/* Community */
+.post-content {
+    white-space: pre-line;
+}
+
+.comment {
+    border-left: 2px solid var(--accent-color);
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+
+/* Messages */
+.message {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.message-sent {
+    background-color: rgba(232, 74, 39, 0.1);
+    margin-left: 20%;
+}
+
+.message-received {
+    background-color: rgba(108, 117, 125, 0.1);
+    margin-right: 20%;
+}
+
+.unread {
+    font-weight: bold;
+    background-color: rgba(232, 74, 39, 0.05);
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(232, 74, 39, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #map-container {
+        height: 300px;
+    }
+    
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+}

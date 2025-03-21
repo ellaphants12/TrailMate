@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TrailMate Logo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        .logo-container {
+            text-align: center;
+        }
+        .mountain-icon {
+            position: relative;
+            width: 100px;
+            height: 60px;
+            margin: 0 auto 10px;
+        }
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            border-bottom: 60px solid #E84A27;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+        }
+        .mountain-1 {
+            left: 10px;
+            height: 0;
+            width: 30px;
+        }
+        .mountain-2 {
+            left: 35px;
+            height: 0;
+            width: 40px;
+            border-bottom-color: #d43d1c;
+        }
+        .mountain-3 {
+            left: 60px;
+            height: 0;
+            width: 25px;
+        }
+        .sun {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            width: 15px;
+            height: 15px;
+            background-color: #F8A269;
+            border-radius: 50%;
+        }
+        .logo-text {
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <div class="mountain-icon">
+            <div class="mountain mountain-1"></div>
+            <div class="mountain mountain-2"></div>
+            <div class="mountain mountain-3"></div>
+            <div class="sun"></div>
+        </div>
+        <div class="logo-text">TrailMate</div>
+    </div>
+</body>
+</html>

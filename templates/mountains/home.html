@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}TrailMate - Explore Mountains in the Philippines{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "images/hero-bg.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        margin-bottom: 30px;
+        border-radius: 8px;
+    }
+    
+    .hero-content {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    
+    .search-box {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+    
+    .map-container-wrapper {
+        position: relative;
+        height: 600px;
+        margin-bottom: 30px;
+    }
+    
+    #map-container {
+        height: 100%;
+        width: 100%;
+        border-radius: 8px;
+    }
+    
+    .map-sidebar {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 300px;
+        max-height: 580px;
+        overflow-y: auto;
+        z-index: 1000;
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .featured-mountains {
+        margin-bottom: 50px;
+    }
+    
+    .mountain-card {
+        height: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Explore the Mountains of the Philippines</h1>
+            <p class="hero-subtitle">Discover hiking trails, connect with guides, and join a community of mountain enthusiasts</p>
+            <a href="{% url 'mountain_list' %}" class="btn btn-primary btn-lg">Explore Mountains</a>
+            
+            <!-- Search Box -->
+            <div class="search-box">
+                <form id="map-search" action="{% url 'search_mountains' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" id="search-query" name="q" class="form-control" placeholder="Search for mountains...">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Map Section -->
+<section class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>Interactive Map</h2>
+            <p>Click on a mountain marker to view details or use the search box to find specific mountains.</p>
+        </div>
+    </div>
+    
+    <div class="map-container-wrapper">
+        <div id="map-container"></div>
+        <div id="map-sidebar" class="map-sidebar">
+            <div class="alert alert-info">
+                <h5>Mountain Information</h5>
+                <p>Click on a mountain marker to view details.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Mountains Section -->
+<section class="featured-mountains">
+    <div class="container">
+        <h2 class="mb-4">Featured Mountains</h2>
+        <div class="row">
+            {% for mountain in mountains|slice:":3" %}
+                <div class="col-md-4 mb-4">
+                    <div class="card mountain-card">
+                        {% if mountain.image %}
+                            <img src="{{ mountain.image.url }}" class="card-img-top" alt="{{ mountain.name }}">
+                        {% else %}
+                            <img src="{% static 'images/mountain-placeholder.jpg' %}" class="card-img-top" alt="{{ mountain.name }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ mountain.name }}</h5>
+                            <p class="card-text">
+                                <strong>Location:</strong> {{ mountain.location }}<br>
+                                <strong>Elevation:</strong> {{ mountain.elevation }}m<br>
+                                <strong>Difficulty:</strong> {{ mountain.get_difficulty_display }}
+                            </p>
+                            <a href="{% url 'mountain_detail' mountain.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                        <span class="difficulty {{ mountain.difficulty }}">{{ mountain.get_difficulty_display }}</span>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col">
+                    <div class="alert alert-info">No mountains available yet.</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-3">
+            <a href="{% url 'mountain_list' %}" class="btn btn-outline-primary">View All Mountains</a>
+        </div>
+    </div>
+</section>
+
+<!-- Community Section -->
+<section class="container mb-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Community</h3>
+                </div>
+                <div class="card-body">
+                    <p>Connect with fellow hikers, share your experiences, and join upcoming events.</p>
+                    <a href="{% url 'community_home' %}" class="btn btn-primary">Join Community</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Local Guides</h3>
+                </div>
+                <div class="card-body">
+                    <p>Find experienced local guides to help you navigate the mountains safely.</p>
+                    <a href="{% url 'guide_list' %}" class="btn btn-primary">Find Guides</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Additional JavaScript for the home page if needed
+</script>
+{% endblock %}

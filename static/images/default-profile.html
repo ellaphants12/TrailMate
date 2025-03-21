@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Default Profile Picture</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+        .profile-container {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #E84A27; /* Primary orange color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .profile-icon {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+        .head {
+            width: 60px;
+            height: 60px;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 30px;
+        }
+        .body {
+            width: 80px;
+            height: 40px;
+            background-color: #FFFFFF;
+            border-radius: 40px 40px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+        }
+        .mountain {
+            position: absolute;
+            bottom: 15px;
+            border-bottom: 25px solid #F8A269; /* Secondary orange color */
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            z-index: 2;
+        }
+        .mountain-1 {
+            left: 25px;
+            height: 0;
+            width: 25px;
+        }
+        .mountain-2 {
+            left: 60px;
+            height: 0;
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-icon">
+            <div class="head"></div>
+            <div class="body"></div>
+            <div class="mountain mountain-1"></div>
+            <div class="mountain mountain-2"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - TrailMate{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .register-logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .register-logo img {
+        height: 60px;
+        margin-right: 10px;
+    }
+    
+    .register-logo h2 {
+        font-size: 2.5rem;
+        margin-top: 10px;
+        color: var(--text-color);
+    }
+    
+    .register-welcome {
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+    }
+    
+    .form-control {
+        border-radius: 30px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(232, 74, 39, 0.25);
+    }
+    
+    .btn-register {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 30px;
+        padding: 12px 20px;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .btn-register:hover {
+        background-color: #d43d1c;
+        border-color: #d43d1c;
+    }
+    
+    .register-footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .register-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .helptext {
+        font-size: 0.8rem;
+        color: #6c757d;
+        display: block;
+        margin-top: -15px;
+        margin-bottom: 15px;
+    }
+    
+    .errorlist {
+        color: #dc3545;
+        padding-left: 20px;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="register-container">
+        <div class="register-logo">
+            <img src="{% static 'images/logo.png' %}" alt="TrailMate Logo">
+            <h2>TrailMate</h2>
+        </div>
+        
+        <div class="register-welcome">
+            <h3>Create an Account</h3>
+            <p>Join our community of mountain enthusiasts</p>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+            
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.username.help_text %}
+                    <small class="helptext">{{ form.username.help_text }}</small>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password1.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.password1.help_text %}
+                    <small class="helptext">{{ form.password1.help_text }}</small>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.password2.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if form.password2.help_text %}
+                    <small class="helptext">{{ form.password2.help_text }}</small>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-register">Register</button>
+            
+            <div class="register-footer">
+                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

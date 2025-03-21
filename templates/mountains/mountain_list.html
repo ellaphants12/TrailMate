@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mountains - TrailMate{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Mountains in the Philippines</h1>
+            <p class="lead">Discover mountains to climb and explore.</p>
+        </div>
+    </div>
+    
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form action="{% url 'search_mountains' %}" method="get" class="d-flex">
+                <input type="text" name="q" class="form-control me-2" placeholder="Search mountains..." value="{{ query|default:'' }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                    Filter by Difficulty
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item" href="{% url 'mountain_list' %}">All Difficulties</a></li>
+                    <li><a class="dropdown-item" href="{% url 'search_mountains' %}?q=easy">Easy</a></li>
+                    <li><a class="dropdown-item" href="{% url 'search_mountains' %}?q=moderate">Moderate</a></li>
+                    <li><a class="dropdown-item" href="{% url 'search_mountains' %}?q=hard">Hard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'search_mountains' %}?q=expert">Expert</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mountains List -->
+    <div class="row">
+        {% for mountain in mountains %}
+            <div class="col-md-4 mb-4">
+                <div class="card mountain-card">
+                    {% if mountain.image %}
+                        <img src="{{ mountain.image.url }}" class="card-img-top" alt="{{ mountain.name }}">
+                    {% else %}
+                        <img src="{% static 'images/mountain-placeholder.jpg' %}" class="card-img-top" alt="{{ mountain.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mountain.name }}</h5>
+                        <p class="card-text">
+                            <strong>Location:</strong> {{ mountain.location }}<br>
+                            <strong>Elevation:</strong> {{ mountain.elevation }}m<br>
+                            <strong>Difficulty:</strong> {{ mountain.get_difficulty_display }}
+                        </p>
+                        <a href="{% url 'mountain_detail' mountain.id %}" class="btn btn-primary">View Details</a>
+                    </div>
+                    <span class="difficulty {{ mountain.difficulty }}">{{ mountain.get_difficulty_display }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <div class="alert alert-info">No mountains found matching your search criteria.</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mountain Placeholder</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #F8A269; /* Orange background from the second image */
+        }
+        .mountain-scene {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            overflow: hidden;
+        }
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            border-bottom: 300px solid #E84A27; /* Primary orange color */
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+        }
+        .mountain-1 {
+            left: 50px;
+            height: 0;
+            width: 300px;
+            border-bottom-color: #d43d1c; /* Darker orange */
+        }
+        .mountain-2 {
+            left: 250px;
+            height: 0;
+            width: 400px;
+            z-index: 2;
+        }
+        .mountain-3 {
+            left: 500px;
+            height: 0;
+            width: 250px;
+            border-bottom-color: #d43d1c; /* Darker orange */
+        }
+        .sun {
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            width: 80px;
+            height: 80px;
+            background-color: #FFFFFF; /* White sun */
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+        }
+        .cloud {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+        }
+        .cloud-1 {
+            top: 100px;
+            left: 100px;
+            width: 150px;
+            height: 40px;
+        }
+        .cloud-2 {
+            top: 150px;
+            left: 400px;
+            width: 200px;
+            height: 50px;
+        }
+        .tree {
+            position: absolute;
+            bottom: 0;
+            z-index: 3;
+        }
+        .tree-trunk {
+            width: 10px;
+            height: 40px;
+            background-color: #5D4037; /* Brown */
+            margin: 0 auto;
+        }
+        .tree-top {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 60px solid #2E7D32; /* Green */
+            margin-bottom: 5px;
+        }
+        .tree-1 {
+            left: 150px;
+            bottom: 20px;
+        }
+        .tree-2 {
+            left: 200px;
+            bottom: 30px;
+        }
+        .tree-3 {
+            left: 600px;
+            bottom: 25px;
+        }
+        .tree-4 {
+            left: 650px;
+            bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mountain-scene">
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="mountain mountain-1"></div>
+        <div class="mountain mountain-2"></div>
+        <div class="mountain mountain-3"></div>
+        
+        <div class="tree tree-1">
+            <div class="tree-top"></div>
+            <div class="tree-trunk"></div>
+        </div>
+        <div class="tree tree-2">
+            <div class="tree-top"></div>
+            <div class="tree-trunk"></div>
+        </div>
+        <div class="tree tree-3">
+            <div class="tree-top"></div>
+            <div class="tree-trunk"></div>
+        </div>
+        <div class="tree tree-4">
+            <div class="tree-top"></div>
+            <div class="tree-trunk"></div>
+        </div>
+    </div>
+</body>
+</html>

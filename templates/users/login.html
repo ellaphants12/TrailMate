@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - TrailMate{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .login-logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .login-logo img {
+        height: 60px;
+        margin-right: 10px;
+    }
+    
+    .login-logo h2 {
+        font-size: 2.5rem;
+        margin-top: 10px;
+        color: var(--text-color);
+    }
+    
+    .login-welcome {
+        text-align: center;
+        margin-bottom: 30px;
+        color: var(--primary-color);
+    }
+    
+    .form-control {
+        border-radius: 30px;
+        padding: 12px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(232, 74, 39, 0.25);
+    }
+    
+    .btn-login {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 30px;
+        padding: 12px 20px;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .btn-login:hover {
+        background-color: #d43d1c;
+        border-color: #d43d1c;
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .login-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .input-group-text {
+        border-radius: 30px 0 0 30px;
+        background-color: #f8f9fa;
+    }
+    
+    .input-group .form-control {
+        border-radius: 0 30px 30px 0;
+        margin-bottom: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="{% static 'images/logo.png' %}" alt="TrailMate Logo">
+            <h2>TrailMate</h2>
+        </div>
+        
+        <div class="login-welcome">
+            <h3>Welcome To</h3>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    Your username and password didn't match. Please try again.
+                </div>
+            {% endif %}
+            
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="bi bi-person"></i>
+                </span>
+                <input type="text" name="username" class="form-control" placeholder="Username" required>
+            </div>
+            
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                </span>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-login">Login</button>
+            
+            <div class="login-footer">
+                <p>Don't have an account? <a href="{% url 'register' %}">Sign Up Now</a></p>
+                <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

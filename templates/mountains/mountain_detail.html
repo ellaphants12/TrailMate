@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ mountain.name }} - TrailMate{% endblock %}
+
+{% block extra_css %}
+<style>
+    .mountain-header {
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0 50px;
+        position: relative;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+    
+    .mountain-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+        border-radius: 8px;
+    }
+    
+    .mountain-header-content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .mountain-stats {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+    
+    .stat-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(232, 74, 39, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: var(--primary-color);
+    }
+    
+    .trail-card {
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+    }
+    
+    .trail-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .review-form {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+    }
+    
+    .rating-stars {
+        display: flex;
+        margin-bottom: 15px;
+    }
+    
+    .rating-star {
+        font-size: 24px;
+        color: #ccc;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    
+    .rating-star.active {
+        color: #ffc107;
+    }
+    
+    #map-detail {
+        height: 300px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mountain-details">
+    <!-- Mountain Header -->
+    <div class="mountain-header" style="background-image: url('{% if mountain.image %}{{ mountain.image.url }}{% else %}{% static 'images/mountain-placeholder.jpg' %}{% endif %}');">
+        <div class="container">
+            <div class="mountain-header-content">
+                <h1>{{ mountain.name }}</h1>
+                <p class="lead">{{ mountain.location }}</p>
+                <span class="badge bg-{{ mountain.difficulty }}">{{ mountain.get_difficulty_display }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <!-- Mountain Stats -->
+            <div class="col-md-4">
+                <div class="mountain-stats">
+                    <h3>Mountain Stats</h3>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="bi bi-arrow-up"></i>
+                        </div>
+                        <div>
+                            <small>Elevation</small>
+                            <h5>{{ mountain.elevation }} meters</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div>
+                            <small>Location</small>
+                            <h5>{{ mountain.location }}</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="bi bi-speedometer"></i>
+                        </div>
+                        <div>
+                            <small>Difficulty</small>
+                            <h5>{{ mountain.get_difficulty_display }}</h5>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <div>
+                            <small>Rating</small>
+                            <h5>
+                                {% if mountain.reviews.all %}
+                                    {{ mountain.reviews.all|length }} reviews
+                                {% else %}
+                                    No reviews yet
+                                {% endif %}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Map -->
+                <div id="map-detail"></div>
+            </div>
+            
+            <!-- Mountain Description and Trails -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3>About {{ mountain.name }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ mountain.description|linebreaks }}</p>
+                    </div>
+                </div>
+                
+                <!-- Trails -->
+                <h3 class="mb-3">Available Trails</h3>
+                {% if trails %}
+                    <div class="row">
+                        {% for trail in trails %}
+                            <div class="col-md-6">
+                                <div class="card trail-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ trail.name }}</h5>
+                                        <p class="card-text">
+                                            <strong>Length:</strong> {{ trail.length }} km<br>
+                                            <strong>Est. Time:</strong> {{ trail.estimated_time }}<br>
+                                            <strong>Difficulty:</strong> {{ trail.get_difficulty_display }}
+                                        </p>
+                                        <p class="card-text">{{ trail.description|truncatewords:20 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No trails available for this mountain yet.</div>
+                {% endif %}
+                
+                <!-- Reviews -->
+                <h3 class="mt-5 mb-3">Reviews</h3>
+                
+                {% if user.is_authenticated %}
+                    <div class="review-form">
+                        <h4>Write a Review</h4>
+                        <form method="post" action="{% url 'add_review' mountain.id %}">
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                <label for="id_rating">Rating:</label>
+                                <div class="rating-stars">
+                                    {% for i in "12345" %}
+                                        <span class="rating-star" data-value="{{ i }}">★</span>
+                                    {% endfor %}
+                                </div>
+                                <input type="hidden" name="rating" id="id_rating" class="rating-input" value="5">
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ form.comment.label_tag }}
+                                {{ form.comment }}
+                                {% if form.comment.errors %}
+                                    <div class="invalid-feedback">
+                                        {{ form.comment.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                {% endif %}
+                
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review">
+                            <div class="d-flex justify-content-between">
+                                <h5>{{ review.user.username }}</h5>
+                                <div class="star-rating">
+                                    {% for i in "12345" %}
+                                        {% if i|add:"0" <= review.rating %}
+                                            <span class="star active">★</span>
+                                        {% else %}
+                                            <span class="star">★</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ review.created_at|date:"F d, Y" }}</small>
+                            <p class="mt-2">{{ review.comment }}</p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">No reviews yet. Be the first to review this mountain!</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize map for mountain detail
+        const mapDetail = document.getElementById('map-detail');
+        if (mapDetail) {
+            const map = L.map('map-detail').setView([{{ mountain.latitude }}, {{ mountain.longitude }}], 12);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            L.marker([{{ mountain.latitude }}, {{ mountain.longitude }}])
+                .addTo(map)
+                .bindPopup('<strong>{{ mountain.name }}</strong><br>{{ mountain.elevation }}m')
+                .openPopup();
+        }
+    });
+</script>
+{% endblock %}
